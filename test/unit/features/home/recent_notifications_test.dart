@@ -206,5 +206,11 @@ void main() {
       expect(list, isEmpty);
       expect(container.read(unreadNotificationsCountProvider), 0);
     });
+
+    test('sampleNotifications returns 3 valid notifications', () {
+      final sample = RecentNotificationsNotifier.sampleNotifications();
+      expect(sample.length, 3);
+      expect(sample.any((n) => n.id == 'notif-1'), isTrue);
+    });
   });
 }

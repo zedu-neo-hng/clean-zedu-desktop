@@ -4,7 +4,32 @@ import 'package:zedu/features/features.dart';
 class RecentNotificationsNotifier extends Notifier<List<RecentNotification>> {
   @override
   List<RecentNotification> build() {
-    final now = DateTime.now();
+    final isDevOrDemo = _isDevOrDemo();
+    if (!isDevOrDemo) {
+      return const [];
+    }
+    return sampleNotifications();
+  }
+
+  static bool _isDevOrDemo() {
+    if (!dotenv.isInitialized) {
+      return true;
+    }
+    try {
+      if (AppFlavorConfig.isDevelopment) {
+        return true;
+      }
+      if (locator.isRegistered<AppConfig>()) {
+        return locator<AppConfig>().usesMockData;
+      }
+      return AppConfig.fromEnvironment().usesMockData;
+    } catch (_) {
+      return true;
+    }
+  }
+
+  static List<RecentNotification> sampleNotifications([DateTime? clock]) {
+    final now = clock ?? DateTime.now();
     return [
       RecentNotification(
         id: 'notif-1',

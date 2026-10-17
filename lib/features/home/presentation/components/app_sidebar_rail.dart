@@ -67,32 +67,7 @@ class AppSidebarRail extends ConsumerWidget {
             onTap: () => select(HomeSidebarType.buzz),
           ),
           const Spacer(),
-          _RailBottomIcon(
-            icon: Icons.notifications_none_outlined,
-            hasNotification: true,
-            onTap: () {
-              // Fire a test notification replicating DM notification
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Notification will fire in 5 seconds.'),
-                  duration: Duration(seconds: 3),
-                ),
-              );
-              Future.delayed(const Duration(seconds: 5), () {
-                ref
-                    .read(notificationServiceProvider)
-                    .handleIncomingMessage(
-                      {
-                        'user_id': 'system_notification',
-                        'content': 'This is a test notification from Zedu.',
-                      },
-                      'system',
-                      'Zedu',
-                      forceShow: true,
-                    );
-              });
-            },
-          ),
+          const NotificationBellButton(),
           _RailBottomIcon(
             icon: Icons.settings_outlined,
             selected: settingsSelected,
@@ -199,13 +174,11 @@ class _RailNavItem extends StatelessWidget {
 class _RailBottomIcon extends StatelessWidget {
   const _RailBottomIcon({
     required this.icon,
-    this.hasNotification = false,
     this.selected = false,
     this.onTap,
   });
 
   final IconData icon;
-  final bool hasNotification;
   final bool selected;
   final VoidCallback? onTap;
 
@@ -218,34 +191,16 @@ class _RailBottomIcon extends StatelessWidget {
       borderRadius: BorderRadius.circular(7),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 7),
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                color: selected
-                    ? colors.primary.withValues(alpha: 0.95)
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(7),
-              ),
-              child: Icon(icon, color: colors.onPrimary, size: 18),
-            ),
-            if (hasNotification)
-              Positioned(
-                right: 6,
-                top: 6,
-                child: Container(
-                  width: 8,
-                  height: 8,
-                  decoration: BoxDecoration(
-                    color: colors.error,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-              ),
-          ],
+        child: Container(
+          width: 32,
+          height: 32,
+          decoration: BoxDecoration(
+            color: selected
+                ? colors.primary.withValues(alpha: 0.95)
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(7),
+          ),
+          child: Icon(icon, color: colors.onPrimary, size: 18),
         ),
       ),
     );

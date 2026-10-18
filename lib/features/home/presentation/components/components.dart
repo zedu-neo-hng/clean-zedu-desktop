@@ -5,3 +5,5 @@ export 'set_status_dialog.dart';
 export 'emoji_picker_dialog.dart';
 export 'app_sidebar_rail.dart';
 export 'top_user_menu.dart';
+export 'notification_bell_button.dart';
+export 'notification_preview_popover.dart';

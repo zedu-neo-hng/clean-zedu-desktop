@@ -2,9 +2,7 @@ import 'package:zedu/core/core.dart';
 import 'package:zedu/features/features.dart';
 
 class PersonalProfilePanel extends ConsumerWidget {
-  const PersonalProfilePanel({super.key, this.width = 360});
-
-  final double width;
+  const PersonalProfilePanel({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,7 +17,7 @@ class PersonalProfilePanel extends ConsumerWidget {
     final roleTitle = account.title.isNotEmpty ? account.title : 'Member';
 
     return Container(
-      width: width,
+      width: 360,
       decoration: BoxDecoration(
         color: colors.background,
         boxShadow: [

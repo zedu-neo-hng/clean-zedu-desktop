@@ -4,14 +4,9 @@ import 'package:zedu/features/features.dart';
 class UserMenuDialog extends ConsumerWidget {
   const UserMenuDialog({super.key});
 
-  static const double _maxWidth = 300;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.colors;
-    final availableWidth =
-        MediaQuery.sizeOf(context).width - AppSidebarRail.width - 16;
-    final cardWidth = availableWidth.clamp(0.0, _maxWidth).toDouble();
     final authUser = ref.watch(authNotifierProvider).user;
     final balance = ref.watch(orgCreditBalanceProvider);
     final displayName = authUser?.fullname ?? 'AnonymousUser';
@@ -19,18 +14,12 @@ class UserMenuDialog extends ConsumerWidget {
     final isOnline = status.online;
 
     return Dialog(
-      constraints: BoxConstraints(maxWidth: cardWidth),
-      insetPadding: const EdgeInsets.only(
-        bottom: 24,
-        left: AppSidebarRail.width,
-        right: 16,
-      ),
+      insetPadding: const EdgeInsets.only(bottom: 24, left: 74),
       alignment: Alignment.bottomLeft,
       backgroundColor: colors.background,
       child: Container(
-        key: const ValueKey('user-menu-card'),
-        width: cardWidth,
-        padding: const EdgeInsets.only(top: 16, bottom: 8),
+        width: 320,
+        padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
           color: colors.background,
           borderRadius: BorderRadius.circular(12),
@@ -49,7 +38,7 @@ class UserMenuDialog extends ConsumerWidget {
               // ── Profile header ─────────────────────────────────────────────
               Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
+                  horizontal: 16,
                   vertical: 8,
                 ),
                 child: Row(
@@ -133,7 +122,7 @@ class UserMenuDialog extends ConsumerWidget {
 
               // ── Custom status row ──────────────────────────────────────────
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(8),
                   onTap: () async {
@@ -313,7 +302,7 @@ class _MenuItemButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Row(
           children: [
             Icon(icon, size: 20, color: resolvedIconColor),

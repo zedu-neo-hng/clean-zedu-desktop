@@ -112,7 +112,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 context.gapV(136),
-                Text('Login to Zedu', style: context.textTheme.headlineMedium),
+                Text("Login to Zedu", style: context.textTheme.headlineMedium),
                 context.gapV(8),
                 Text(
                   'Welcome back! We’ve missed you!',

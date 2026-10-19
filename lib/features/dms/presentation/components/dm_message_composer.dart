@@ -59,6 +59,7 @@ class DmMessageComposerState extends ConsumerState<DmMessageComposer> {
   void _onTextChanged() {
     _updateFormattingState();
     _updateMentionSuggestions();
+    if (mounted) setState(() {});
   }
 
   void _updateFormattingState() {
@@ -483,7 +484,9 @@ class DmMessageComposerState extends ConsumerState<DmMessageComposer> {
                       decoration: InputDecoration(
                         hintText: _isEditMode
                             ? 'Editing message…'
-                            : 'Message ${widget.recipientName}',
+                            : widget.recipientName.trim().isEmpty
+                                ? 'Type a message…'
+                                : 'Message ${widget.recipientName}',
                         hintStyle: TextStyle(
                           color: colors.textHint.withValues(alpha: 0.75),
                           fontSize: 12,
@@ -575,7 +578,9 @@ class DmMessageComposerState extends ConsumerState<DmMessageComposer> {
                         onTap: _handleSend,
                         child: Icon(
                           Icons.send_rounded,
-                          color: colors.textHint.withValues(alpha: 0.55),
+                          color: _controller.text.trim().isEmpty
+                              ? colors.textHint.withValues(alpha: 0.55)
+                              : colors.primary,
                           size: 22,
                         ),
                       ),

@@ -4,6 +4,21 @@ import 'package:zedu/features/features.dart';
 class NewGroupChatView extends ConsumerStatefulWidget {
   const NewGroupChatView({super.key});
 
+  static String getComposerPlaceholder(List<TeamMember> selectedMembers) {
+    if (selectedMembers.isEmpty) {
+      return 'Select a recipient above to start messaging...';
+    } else if (selectedMembers.length == 1) {
+      final member = selectedMembers.first;
+      final name = member.name;
+      final displayName = (name != null && name.trim().isNotEmpty)
+          ? name
+          : member.email;
+      return 'Message @$displayName';
+    } else {
+      return 'Message group (${selectedMembers.length} members)...';
+    }
+  }
+
   @override
   ConsumerState<NewGroupChatView> createState() => _NewGroupChatViewState();
 }
@@ -572,6 +587,7 @@ class _NewGroupChatViewState extends ConsumerState<NewGroupChatView> {
     );
   }
 
+
   Widget _buildBottomMessageEditor(AppPalette colors) {
     return Container(
       padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
@@ -598,10 +614,11 @@ class _NewGroupChatViewState extends ConsumerState<NewGroupChatView> {
               ],
             ),
             Divider(height: 24, color: colors.divider),
-            const TextField(
+            TextField(
               enabled: false, // Disabled during creation screen
               decoration: InputDecoration(
-                hintText: 'Message Ruby - Social Media Handler',
+                hintText:
+                    NewGroupChatView.getComposerPlaceholder(_selectedMembers),
                 border: InputBorder.none,
                 isDense: true,
               ),

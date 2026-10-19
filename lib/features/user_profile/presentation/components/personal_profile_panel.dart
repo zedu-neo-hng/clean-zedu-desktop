@@ -142,7 +142,6 @@ class PersonalProfilePanel extends ConsumerWidget {
                         size: 14,
                         color: colors.textHint,
                       ),
-                      const SizedBox(width: 4),
                       Text(
                         menuState.isAway ? 'Away' : 'Active',
                         style: context.textTheme.bodySmall?.copyWith(

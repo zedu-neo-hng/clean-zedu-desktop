@@ -279,6 +279,7 @@ class _CreateOrganizationViewState
                       );
                     },
                   ),
+                  const SizedBox(height: 48),
 
                   // Submit Button
                   ElevatedButton(

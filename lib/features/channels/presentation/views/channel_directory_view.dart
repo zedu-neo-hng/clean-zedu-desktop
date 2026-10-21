@@ -127,7 +127,7 @@ class _ChannelDirectoryViewState extends ConsumerState<ChannelDirectoryView> {
                             )
                           : null,
                       trailing: Text(
-                        '${channel.membersCount} members',
+                        channel.membersCount.countLabel('member'),
                         style: textTheme.bodySmall?.copyWith(
                           color: colors.textSecondary,
                         ),

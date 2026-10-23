@@ -275,7 +275,11 @@ class ChatHistoryNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> saveEdit(String messageId, String newContent) async {
+  Future<void> saveEdit(
+    String messageId,
+    String newContent, {
+    String? threadId,
+  }) async {
     if (newContent.trim().isEmpty) {
       cancelEditing();
       return;
@@ -295,7 +299,12 @@ class ChatHistoryNotifier extends ChangeNotifier {
 
     try {
       final repository = ref.read(dmRepositoryProvider);
-      await repository.editMessage(messageId, content: newContent);
+      await repository.editMessage(
+        messageId,
+        channelId: channelId,
+        content: newContent,
+        threadId: threadId,
+      );
     } catch (_) {
       if (_editingOriginalContent != null) {
         messages = messages.map((m) {

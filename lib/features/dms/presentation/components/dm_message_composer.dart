@@ -6,6 +6,7 @@ import 'composer/composer.dart';
 class DmMessageComposer extends ConsumerStatefulWidget {
   final String recipientName;
   final String channelId;
+  final String? threadId;
   final List<DmParticipant> participants;
   final ValueChanged<String>? onSend;
 
@@ -13,6 +14,7 @@ class DmMessageComposer extends ConsumerStatefulWidget {
     super.key,
     required this.recipientName,
     required this.channelId,
+    this.threadId,
     this.participants = const [],
     this.onSend,
   });
@@ -132,7 +134,7 @@ class DmMessageComposerState extends ConsumerState<DmMessageComposer> {
     if (_isEditMode && _editingMessageId != null) {
       ref
           .read(chatHistoryProvider(widget.channelId))
-          .saveEdit(_editingMessageId!, text);
+          .saveEdit(_editingMessageId!, text, threadId: widget.threadId);
       _exitEditMode();
     } else {
       ref

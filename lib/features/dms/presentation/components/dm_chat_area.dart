@@ -119,6 +119,7 @@ class _DmChatAreaState extends ConsumerState<DmChatArea> {
                   key: _composerKey,
                   recipientName: _recipientHandle,
                   channelId: widget.conversation.channelId,
+                  threadId: widget.conversation.lastThreadId,
                   participants: widget.conversation.participants,
                 ),
               ],

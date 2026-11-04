@@ -13,8 +13,10 @@ Channel _channel(String name) => Channel(
 
 class _EmptyChannelRepository extends Mock implements ChannelRepository {
   @override
-  Future<Result<List<ChannelMessage>>> fetchChannelMessages(String id) async =>
-      const Success(<ChannelMessage>[]);
+  Future<Result<ChannelMessagePage>> fetchChannelMessages(
+    String id, {
+    int page = 1,
+  }) async => const Success(ChannelMessagePage(messages: [], hasMore: false));
 }
 
 class FakeSecureStorageService extends Fake implements SecureStorageService {

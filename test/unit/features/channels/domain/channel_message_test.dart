@@ -11,6 +11,8 @@ void main() {
       'created_at': '2026-10-21T05:14:46Z',
     });
 
+    expect(message.id, 't-1');
+    expect(message.dedupeKey, 't-1');
     expect(message.senderName, 'Ada Lovelace');
     expect(message.avatarUrl, 'https://cdn.zedu.chat/a.png');
     expect(message.createdAt, DateTime.utc(2026, 10, 21, 5, 14, 46).toLocal());
@@ -25,8 +27,11 @@ void main() {
           '<p>Hi &amp; welcome</p><div>Line&nbsp;two</div><ul><li>a</li><li>b</li></ul>',
     });
 
+    expect(message.id, isNull);
     expect(message.senderName, 'gold_salam');
     expect(message.avatarUrl, 'https://cdn.zedu.chat/default.png');
     expect(message.text, 'Hi & welcome\nLine two\na\nb');
+    // Without an id, the content identifies the message.
+    expect(message.dedupeKey, contains('gold_salam'));
   });
 }

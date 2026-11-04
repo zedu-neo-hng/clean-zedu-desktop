@@ -26,19 +26,74 @@ class ChannelMessageList extends ConsumerWidget {
               child: const Text("Couldn't load messages. Retry"),
             ),
           ),
-          data: (messages) => messages.isEmpty
-              ? empty
-              : ListView.builder(
-                  reverse: true,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
-                  ),
-                  itemCount: messages.length,
-                  itemBuilder: (context, index) =>
-                      ChannelMessageTile(message: messages[index]),
-                ),
+          data: (history) {
+            final messages = history.messages;
+            if (messages.isEmpty) return empty;
+            // The footer sits after the oldest message, which is the top of
+            // this reversed list. Older pages are appended behind the reader,
+            // so the scroll offset (measured from the newest end) holds.
+            final showFooter = history.hasMore || history.loadMoreError != null;
+            return ListView.builder(
+              reverse: true,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              itemCount: messages.length + (showFooter ? 1 : 0),
+              itemBuilder: (context, index) {
+                if (index == messages.length) {
+                  return _OlderMessagesFooter(channelId: channelId);
+                }
+                return ChannelMessageTile(message: messages[index]);
+              },
+            );
+          },
         );
+  }
+}
+
+/// The top of the list while older messages remain: loads the next page once
+/// it scrolls into view, and offers a retry when that fails.
+class _OlderMessagesFooter extends ConsumerWidget {
+  const _OlderMessagesFooter({required this.channelId});
+
+  final String channelId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final history = ref.watch(channelHistoryProvider(channelId)).value;
+    final notifier = ref.read(channelHistoryProvider(channelId).notifier);
+
+    if (history?.loadMoreError != null) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 16),
+        child: Center(
+          child: TextButton(
+            onPressed: notifier.loadMore,
+            child: const Text("Couldn't load older messages. Retry"),
+          ),
+        ),
+      );
+    }
+
+    if (history != null && history.hasMore && !history.isLoadingMore) {
+      // Built means visible: the list only builds what is on screen. Retries
+      // are left to the button above so a failing request cannot loop.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (context.mounted) notifier.loadMore();
+      });
+    }
+
+    return const Padding(
+      padding: EdgeInsets.only(bottom: 16),
+      child: Center(
+        child: SizedBox(
+          width: 20,
+          height: 20,
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            semanticsLabel: 'Loading older messages',
+          ),
+        ),
+      ),
+    );
   }
 }
 

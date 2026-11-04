@@ -3,6 +3,7 @@ export 'data/repositories/channel_repository_impl.dart';
 export 'domain/repositories/channel_repository.dart';
 export 'domain/entities/channel.dart';
 export 'domain/entities/channel_message.dart';
+export 'domain/entities/channel_message_page.dart';
 export 'presentation/providers/add_everyone_provider.dart';
 export 'presentation/providers/channel_provider.dart';
 export 'presentation/providers/channel_history_provider.dart';

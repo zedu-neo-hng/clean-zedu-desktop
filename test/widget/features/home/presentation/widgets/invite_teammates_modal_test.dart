@@ -331,5 +331,49 @@ void main() {
       expect(notifier.invited, isEmpty);
       expect(find.text(errorText), findsOneWidget);
     });
+
+    testWidgets('shows singular "teammate" when exactly 1 member is invited', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildModalUnderTest(
+          () async => const AddEveryoneNobodyToAdd('general'),
+        ),
+      );
+      await openModal(tester);
+
+      await tester.enterText(find.byType(TextField), 'ada@example.com');
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pump();
+
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
+      await tester.pump();
+
+      expect(find.text('Successfully invited 1 teammate.'), findsOneWidget);
+    });
+
+    testWidgets('shows plural "teammates" when multiple members are invited', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildModalUnderTest(
+          () async => const AddEveryoneNobodyToAdd('general'),
+        ),
+      );
+      await openModal(tester);
+
+      await tester.enterText(find.byType(TextField), 'ada@example.com');
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pump();
+
+      await tester.enterText(find.byType(TextField), 'bob@example.com');
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pump();
+
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
+      await tester.pump();
+
+      expect(find.text('Successfully invited 2 teammates.'), findsOneWidget);
+    });
   });
 }

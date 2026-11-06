@@ -10,5 +10,6 @@ export 'presentation/widgets/thread_panel.dart';
 export 'presentation/widgets/search_panel.dart';
 export 'presentation/widgets/group_details_panel.dart';
 export 'presentation/widgets/invite_teammates_modal.dart';
+export 'presentation/widgets/offline_status_banner.dart';
 export 'presentation/presentation.dart';
 export 'data/models/user_mention_activity_model.dart';

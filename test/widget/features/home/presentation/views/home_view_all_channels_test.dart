@@ -43,6 +43,11 @@ class _FakeUserProfileNotifier extends UserProfileNotifier {
   UserProfileState build() => const UserProfileState();
 }
 
+class _FakeNetworkStatusNotifier extends NetworkStatusNotifier {
+  @override
+  NetworkStatus build() => NetworkStatus.online;
+}
+
 class _EmptyChannelRepository extends Mock implements ChannelRepository {
   @override
   Future<Result<List<ChannelMessage>>> fetchChannelMessages(String id) async =>
@@ -91,6 +96,7 @@ void main() {
           channelRepositoryProvider.overrideWithValue(
             _EmptyChannelRepository(),
           ),
+          networkStatusProvider.overrideWith(_FakeNetworkStatusNotifier.new),
         ],
         child: buildTestMaterialApp(const HomeView()),
       ),

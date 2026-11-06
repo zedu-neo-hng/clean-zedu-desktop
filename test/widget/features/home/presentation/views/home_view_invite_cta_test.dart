@@ -78,6 +78,11 @@ class _FakeChannelNotifier extends ChannelNotifier {
   ];
 }
 
+class _FakeNetworkStatusNotifier extends NetworkStatusNotifier {
+  @override
+  NetworkStatus build() => NetworkStatus.online;
+}
+
 class _FakeUserProfileNotifier extends UserProfileNotifier {
   final invitedEmails = <String>[];
   int generatedLinkCount = 0;
@@ -128,6 +133,7 @@ Widget _buildHomeView(_FakeUserProfileNotifier userProfileNotifier) {
       ),
       workspaceProvider.overrideWith(_FakeWorkspaceNotifier.new),
       userProfileNotifierProvider.overrideWith(() => userProfileNotifier),
+      networkStatusProvider.overrideWith(_FakeNetworkStatusNotifier.new),
     ],
     child: MaterialApp(
       debugShowCheckedModeBanner: false,

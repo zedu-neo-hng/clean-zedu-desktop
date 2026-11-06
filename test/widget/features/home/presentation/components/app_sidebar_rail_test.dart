@@ -31,7 +31,7 @@ void main() {
     expect(rail.width, AppSidebarRail.width);
 
     final labelStyle = AppTheme.light.textTheme.labelSmall!;
-    for (final label in ['Home', 'DMs', 'People', 'Files', 'Buzz']) {
+    for (final label in ['Home', 'DMs', 'Threads', 'People', 'Files', 'Buzz']) {
       final text = tester.widget<Text>(find.text(label));
       expect(text.style?.fontSize, labelStyle.fontSize);
       expect(text.style?.fontWeight, labelStyle.fontWeight);
@@ -45,11 +45,15 @@ void main() {
         lessThanOrEqualTo(singleLineHeight + 1),
         reason: '$label wrapped',
       );
-      expect(labelSize.width, lessThanOrEqualTo(38));
+      expect(
+        labelSize.width,
+        lessThanOrEqualTo(46),
+        reason: '$label exceeds the rail width',
+      );
     }
 
-    final navIcons = tester.widgetList<Icon>(find.byType(Icon)).take(5);
-    expect(navIcons, hasLength(5));
+    final navIcons = tester.widgetList<Icon>(find.byType(Icon)).take(6);
+    expect(navIcons, hasLength(6));
     for (final icon in navIcons) {
       expect(icon.size, 20);
     }

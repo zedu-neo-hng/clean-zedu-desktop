@@ -83,7 +83,17 @@ class CreditsNotifier extends Notifier<CreditsState> {
     required CreditPackage package,
     required String email,
   }) async {
-    if (package.isFree || _purchaseInFlight) return null;
+    if (package.isFree || _purchaseInFlight) {
+      final navigator = AppRouter.navigatorKey.currentState;
+      if (navigator != null) {
+        AppToastService.showAtRoot(
+          navigator,
+          type: AppToastType.error,
+          message: package.isFree ? 'This is a free package' : 'A purchase is already in progress',
+        );
+      }
+      return null;
+    }
     _purchaseInFlight = true;
 
     try {
